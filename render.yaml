@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: docusense-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        value: sqlite+aiosqlite:///./docusense.db
+      - key: CHROMA_PERSIST_DIR
+        value: ./chroma_data
+      - key: UPLOAD_DIR
+        value: ./uploads
+      - key: FRONTEND_URL
+        sync: false
+
+  - type: web
+    name: docusense-frontend
+    env: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
