@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="Enterprise Document Intelligence Platform powered by RAG + Ollama",
+    description="DocuSense AI — Chat with your documents powered by RAG + Groq",
     lifespan=lifespan
 )
 
@@ -59,3 +59,8 @@ async def root():
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
+
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.getenv("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
