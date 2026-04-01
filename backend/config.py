@@ -13,7 +13,9 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
 
     # Database
-    DATABASE_URL: str = "sqlite+aiosqlite:///./docusense.db"
+    # Use PostgreSQL in production. The .env DATABASE_URL overrides this default.
+    # Example: postgresql+asyncpg://docusense_user:StrongPassword123@localhost:5432/docusense_db
+    DATABASE_URL: str = "postgresql+asyncpg://docusense_user:StrongPassword123@localhost:5432/docusense_db"
 
     # ChromaDB
     CHROMA_PERSIST_DIR: str = "./chroma_data"
